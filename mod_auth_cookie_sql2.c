@@ -182,7 +182,7 @@ static int check_valid_cookie(request_rec *r, auth_cookie_sql2_config_rec *conf)
 		    ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r, ERRTAG "valid cookie found, data: %s", cookies);
 #endif
 
-		    db_ret=check_against_db(conf, r, conf->cookiename, value, username,r->connection->remote_ip, conf->sql_addon, tc);
+		    db_ret=check_against_db(conf, r, conf->cookiename, value, username,r->connection->client_ip, conf->sql_addon, tc);
 		}
 	    }
 	}
@@ -205,7 +205,7 @@ static int check_valid_cookie(request_rec *r, auth_cookie_sql2_config_rec *conf)
 	    *value = '\0';
 	    value++;
 
-	    if ((db_ret=check_against_db(conf, r, cookies, value, username, r->connection->remote_ip, conf->sql_addon, tc)) == RET_AUTHORIZED) {
+	    if ((db_ret=check_against_db(conf, r, cookies, value, username, r->connection->client_ip, conf->sql_addon, tc)) == RET_AUTHORIZED) {
 		// found valid cookie
 
 #ifdef AUTH_COOKIE_SQL2_DEBUG
